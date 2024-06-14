@@ -12,6 +12,17 @@ jobs:
     steps:
     - name: Checkout repo
       uses: actions/checkout@v2
+
+    - name: Set up Node.js env
+      uses: actions/setup-node@v2
+      with: 
+        node-version: 21
+    
+    - name: Install dependencies
+      run: npm install 
+    
+    - name: Build react app
+      run: npm run build
     
     - name: Deploy to Github Pages
       uses: peaceiris/actions-gh-pages@v3
