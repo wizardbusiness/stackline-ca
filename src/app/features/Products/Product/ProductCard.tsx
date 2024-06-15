@@ -11,7 +11,7 @@ type ProductCardProps = {
 };
 const ProductCard = ({ product, error, isLoading }: ProductCardProps) => {
   return (
-    <Box sx={{ height: 250, width: 250, backgroundColor: 'white' }}>
+    <Box sx={{ height: '100%', width: '20%', backgroundColor: 'white' }}>
       {error ? (
         'Product Not Found'
       ) : isLoading ? (
@@ -29,8 +29,8 @@ const ProductCard = ({ product, error, isLoading }: ProductCardProps) => {
               <Typography sx={{ color: 'gray' }}>{product.subtitle}</Typography>
             </Box>
             <Box>
-              {product.tags.map((tag) => (
-                <Chip label={tag} />
+              {product.tags.map((tag, index) => (
+                <Chip key={`tag${index}`} label={tag} />
               ))}
             </Box>
           </Stack>
