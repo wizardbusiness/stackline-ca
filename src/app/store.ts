@@ -1,4 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
+import { useDispatch } from 'react-redux';
 import productsReducer from './features/Products/productsSlice';
 
 export const store = configureStore({
@@ -6,3 +7,8 @@ export const store = configureStore({
     productInfo: productsReducer
   }
 });
+
+export type AppDispatch = typeof store.dispatch;
+export const useAppDispatch = useDispatch.withTypes<AppDispatch>();
+
+export type RootState = ReturnType<typeof store.getState>;
