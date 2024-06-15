@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
 import { Product } from '../types';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { SerializedError } from '@reduxjs/toolkit';
 import { LineChart } from '@mui/x-charts';
 import { Stack, Box, Typography } from '@mui/material';
 import { blue, grey, blueGrey } from '@mui/material/colors';
+import { DateTime } from 'luxon';
 
 type SalesChartProps = {
   product: Product | undefined;
@@ -13,7 +13,6 @@ type SalesChartProps = {
 };
 
 const SalesChart = ({ product, error, isLoading }: SalesChartProps) => {
-  console.log(!!isLoading);
   const data = product?.sales.map((sale, index) => {
     return {
       x: index,
@@ -27,8 +26,9 @@ const SalesChart = ({ product, error, isLoading }: SalesChartProps) => {
   ): string[] => {
     if (!dateStrings) return [];
     return dateStrings.map((str) => {
-      const date = new Date(str);
-      return date.toLocaleString('en-us', { month: 'short' }).toUpperCase();
+      const date = DateTime.fromISO(str, { locale: 'en' });
+      const dateString: string = date.toFormat('MMM');
+      return dateString;
     });
   };
 
