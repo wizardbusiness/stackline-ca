@@ -17,6 +17,7 @@
     "@reduxjs/toolkit": "^2.2.5",
     "@tanstack/react-query": "^5.45.0",
     "@tanstack/react-table": "^8.17.3",
+    "@types/datejs": "^0.0.36",
     "date.js": "^0.3.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
