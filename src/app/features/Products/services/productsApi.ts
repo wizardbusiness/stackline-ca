@@ -4,7 +4,8 @@ import {
   FetchArgs,
   FetchBaseQueryError
 } from '@reduxjs/toolkit/query/react';
-import { Product, ProductsState } from '../productsSlice';
+
+import { Product, ProductsState } from '../types';
 
 const localJSONQuery: BaseQueryFn<
   string | FetchArgs,
