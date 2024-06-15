@@ -1,6 +1,6 @@
 import _React from 'react';
 import { useGetProductByIdQuery } from '../services/productsApi';
-import { Box, Divider, Chip, Skeleton, Stack, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import ProductCard from './ProductCard';
 import SalesChart from './SalesChart';
 import { grey } from '@mui/material/colors';
