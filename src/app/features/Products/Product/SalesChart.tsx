@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Product } from '../types';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { SerializedError } from '@reduxjs/toolkit';
 import { LineChart } from '@mui/x-charts';
-import { Skeleton, Box, Stack, Paper, Typography } from '@mui/material';
-import { blue, blueGrey } from '@mui/material/colors';
+import { Stack, Box, Typography } from '@mui/material';
+import { blue, grey, blueGrey } from '@mui/material/colors';
 
 type SalesChartProps = {
   product: Product | undefined;
@@ -13,6 +13,7 @@ type SalesChartProps = {
 };
 
 const SalesChart = ({ product, error, isLoading }: SalesChartProps) => {
+  console.log(!!isLoading);
   const data = product?.sales.map((sale, index) => {
     return {
       x: index,
@@ -32,29 +33,40 @@ const SalesChart = ({ product, error, isLoading }: SalesChartProps) => {
   };
 
   const dateStrings = product?.sales.map((saleCount) => saleCount.weekEnding);
-  console.log(dateStrings);
 
   const months = getMonthsFromDateStrings(dateStrings);
-  console.log(months);
 
   return (
     <>
       {error ? (
         'Product Not Found'
-      ) : isLoading ? (
-        <Skeleton>...Loading</Skeleton>
       ) : product ? (
-        <Paper sx={{ height: '70%', width: '80%' }}>
+        <Box
+          sx={{
+            height: '60%',
+            width: '80%',
+            backgroundColor: 'white',
+            paddingBottom: '1em'
+          }}
+        >
           <Stack sx={{ height: '100%', width: '100%', padding: 2 }}>
-            <Typography variant="h6">Retail Sales</Typography>
+            <Typography color={blueGrey[600]} variant="h6">
+              Retail Sales
+            </Typography>
             <LineChart
+              loading={!!isLoading}
               dataset={data}
               xAxis={[
                 {
                   dataKey: 'x',
                   tickLabelInterval: (_value, index) => index % 2 === 0,
                   disableTicks: true,
-                  valueFormatter: (value) => months[value]
+                  valueFormatter: (value) => months[value],
+                  tickLabelStyle: {
+                    fontSize: '0.9em',
+                    transform: 'translateY(20px) translateX(20px)',
+                    fill: grey[500]
+                  }
                 }
               ]}
               yAxis={[
@@ -62,7 +74,7 @@ const SalesChart = ({ product, error, isLoading }: SalesChartProps) => {
                   id: 'revenue',
                   dataKey: 'y',
                   scaleType: 'linear',
-                  min: 0,
+                  min: -50000,
                   max: 3000000,
                   valueFormatter: (_value) => '',
                   disableTicks: true,
@@ -71,22 +83,22 @@ const SalesChart = ({ product, error, isLoading }: SalesChartProps) => {
                 {
                   id: 'unitsSold',
                   dataKey: 'y',
-                  min: 0,
+                  min: -100,
                   max: 10000
                 }
               ]}
               series={[
                 {
-                  curve: 'catmullRom',
+                  curve: 'natural',
                   data: data?.map((data) => data.y),
                   color: blue[400],
                   showMark: false,
                   yAxisKey: 'revenue'
                 },
                 {
-                  // curve: 'natural',
+                  curve: 'natural',
                   data: data?.map((data) => data.y2),
-                  color: blueGrey[300],
+                  color: 'gray',
                   yAxisKey: 'unitsSold',
                   showMark: false
                 }
@@ -94,12 +106,15 @@ const SalesChart = ({ product, error, isLoading }: SalesChartProps) => {
               sx={{
                 '& .MuiLineElement-root': {
                   strokeWidth: 4
+                },
+                '& .MuiChartsAxis-line': {
+                  stroke: grey[100]
                 }
               }}
-              margin={{ left: 80, right: 80 }}
+              margin={{ left: 20, right: 80, bottom: 70 }}
             />
           </Stack>
-        </Paper>
+        </Box>
       ) : null}
     </>
   );
