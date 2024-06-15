@@ -1,11 +1,14 @@
 import ProductPage from './app/features/Products/Product/ProductPage';
-import './App.css';
+import Header from './app/components/Header';
 
 function App() {
   return (
-    <main>
-      <ProductPage />
-    </main>
+    <>
+      <main>
+        <Header />
+        <ProductPage />
+      </main>
+    </>
   );
 }
 
